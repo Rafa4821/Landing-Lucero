@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const [cart, setCart] = useState([]);
-  const [show, setShow] = useState(false);
+  const [showCart, setShowCart] = useState(false);
 
   const handleAddToCart = (product) => {
     const existingProduct = cart.find(item => item.id === product.id);
@@ -24,15 +24,19 @@ const App = () => {
       setCart([...cart, { ...product, quantity: 1 }]);
     }
     toast.success(`${product.name} added to cart!`);
-    setShow(true); // Mostrar carrito al agregar producto
+    setShowCart(true); // Mostrar carrito al agregar producto
   };
 
-  const handleCloseCart = () => setShow(false);
-  const handleShowCart = () => setShow(true);
+  const handleCloseCart = () => setShowCart(false);
 
   return (
     <Router basename="/Landing-Lucero">
-      <NavBar cartItems={cart} cartItemsCount={cart.reduce((acc, item) => acc + item.quantity, 0)} showCart={handleShowCart} handleCloseCart={handleCloseCart} />
+      <NavBar 
+        cartItems={cart} 
+        cartItemsCount={cart.reduce((acc, item) => acc + item.quantity, 0)} 
+        showCart={showCart} 
+        handleCloseCart={handleCloseCart} 
+      />
       <Routes>
         <Route path="/" element={<Home onAddToCart={handleAddToCart} />} />
         <Route path="/products" element={<Products onAddToCart={handleAddToCart} />} />

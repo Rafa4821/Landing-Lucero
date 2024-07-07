@@ -11,7 +11,7 @@ const CartWidget = ({ cartItems, cartItemsCount, showCart, handleCloseCart }) =>
         <span className="ml-2">{cartItemsCount}</span>
       </Button>
 
-      <Modal show={cartItems.length > 0} onHide={handleCloseCart}>
+      <Modal show={showCart} onHide={handleCloseCart}>
         <Modal.Header closeButton>
           <Modal.Title>Cart</Modal.Title>
         </Modal.Header>
