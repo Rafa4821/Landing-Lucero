@@ -1,10 +1,15 @@
 // src/components/NavBar.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import CartWidget from './CartWidget';
 
-const NavBar = ({ cartItemsCount }) => {
+const NavBar = ({ cartItems, cartItemsCount }) => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
@@ -16,7 +21,7 @@ const NavBar = ({ cartItemsCount }) => {
             <Nav.Link as={Link} to="/products">Products</Nav.Link>
             <Nav.Link as={Link} to="/contact">Contact</Nav.Link>
           </Nav>
-          <CartWidget cartItemsCount={cartItemsCount} />
+          <CartWidget cartItems={cartItems} cartItemsCount={cartItemsCount} showCart={handleShow} handleCloseCart={handleClose} />
         </Navbar.Collapse>
       </Container>
     </Navbar>
