@@ -13,7 +13,7 @@ const ProductCard = ({ product, onAddToCart }) => {
         <Card.Text>{product.description}</Card.Text>
         <Card.Text>${product.price}</Card.Text>
         <Button variant="primary" onClick={() => onAddToCart(product)}>
-          <FaPlusCircle className="mr-2" /> Add to Cart
+          <FaPlusCircle className="mr-2" /> Agregar
         </Button>
       </Card.Body>
     </Card>

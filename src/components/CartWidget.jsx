@@ -12,11 +12,11 @@ const CartWidget = ({ cartItems, cartItemsCount, showCart, handleCloseCart, hand
 
       <Modal show={showCart} onHide={handleCloseCart}>
         <Modal.Header closeButton>
-          <Modal.Title>Cart</Modal.Title>
+          <Modal.Title>Carro</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {cartItems.length === 0 ? (
-            <p>Your cart is empty</p>
+            <p>El carrito esta vacio</p>
           ) : (
             <ul>
               {cartItems.map(item => (
@@ -29,7 +29,7 @@ const CartWidget = ({ cartItems, cartItemsCount, showCart, handleCloseCart, hand
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseCart}>
-            Close
+            Cerrar
           </Button>
         </Modal.Footer>
       </Modal>
