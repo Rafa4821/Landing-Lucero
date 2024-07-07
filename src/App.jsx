@@ -28,14 +28,14 @@ const App = () => {
   };
 
   const handleCloseCart = () => setShowCart(false);
+  const handleShowCart = () => setShowCart(true);
 
   return (
     <Router basename="/Landing-Lucero">
       <NavBar 
         cartItems={cart} 
         cartItemsCount={cart.reduce((acc, item) => acc + item.quantity, 0)} 
-        showCart={showCart} 
-        handleCloseCart={handleCloseCart} 
+        handleShowCart={handleShowCart}
       />
       <Routes>
         <Route path="/" element={<Home onAddToCart={handleAddToCart} />} />

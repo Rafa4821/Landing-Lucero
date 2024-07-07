@@ -3,10 +3,10 @@ import React from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
 import { Button, Modal } from 'react-bootstrap';
 
-const CartWidget = ({ cartItems, cartItemsCount, showCart, handleCloseCart }) => {
+const CartWidget = ({ cartItems, cartItemsCount, showCart, handleCloseCart, handleShowCart }) => {
   return (
     <>
-      <Button variant="dark" onClick={showCart}>
+      <Button variant="dark" onClick={handleShowCart}>
         <FaShoppingCart size={24} />
         <span className="ml-2">{cartItemsCount}</span>
       </Button>
