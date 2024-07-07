@@ -1,4 +1,3 @@
-// src/data/products.js
 export const products = [
   { id: 1, name: 'The Legend of Zelda', price: 59.99, description: 'An action-adventure game.', image: '/Landing-Lucero/assets/images/zelda-botw.jpg' },
   { id: 2, name: 'Super Mario Odyssey', price: 49.99, description: 'A platform game.', image: '/Landing-Lucero/assets/images/mario-odyssey.jpg' },

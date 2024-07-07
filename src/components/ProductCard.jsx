@@ -1,8 +1,8 @@
-// src/components/ProductCard.jsx
+
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { FaPlusCircle } from 'react-icons/fa';
-import '../styles/ProductCard.css'; // Asegúrate de importar el archivo CSS
+import '../styles/ProductCard.css';
 
 const ProductCard = ({ product, onAddToCart }) => {
   return (

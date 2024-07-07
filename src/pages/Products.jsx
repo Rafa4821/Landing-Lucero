@@ -1,4 +1,3 @@
-// src/pages/Products.jsx
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { products } from '../data/products';

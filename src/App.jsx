@@ -1,4 +1,4 @@
-// src/App.jsx
+
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
@@ -24,7 +24,7 @@ const App = () => {
       setCart([...cart, { ...product, quantity: 1 }]);
     }
     toast.success(`${product.name} added to cart!`);
-    setShowCart(true); // Mostrar carrito al agregar producto
+    setShowCart(true);
   };
 
   const handleCloseCart = () => setShowCart(false);

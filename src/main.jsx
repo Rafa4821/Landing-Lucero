@@ -1,6 +1,5 @@
-// src/main.jsx
 import React from 'react';
-import ReactDOM from 'react-dom/client'; // Importa desde 'react-dom/client'
+import ReactDOM from 'react-dom/client';
 import App from './App';
 import './styles/index.css';
 

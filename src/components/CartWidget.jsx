@@ -1,4 +1,3 @@
-// src/components/CartWidget.jsx
 import React from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
 import { Button, Modal } from 'react-bootstrap';
