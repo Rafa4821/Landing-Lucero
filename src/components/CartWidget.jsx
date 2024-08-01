@@ -1,8 +1,8 @@
 import React from 'react';
-import { FaShoppingCart } from 'react-icons/fa';
-import { Button, Modal } from 'react-bootstrap';
+import { FaShoppingCart, FaPlusCircle, FaMinusCircle } from 'react-icons/fa';
+import { Button, Modal, ButtonGroup } from 'react-bootstrap';
 
-const CartWidget = ({ cartItems, cartItemsCount, showCart, handleCloseCart, handleShowCart, handleRemoveFromCart }) => {
+const CartWidget = ({ cartItems, cartItemsCount, showCart, handleCloseCart, handleShowCart, handleRemoveFromCart, handleAddToCart }) => {
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
@@ -24,7 +24,14 @@ const CartWidget = ({ cartItems, cartItemsCount, showCart, handleCloseCart, hand
               {cartItems.map(item => (
                 <li key={item.id}>
                   {item.name} - {item.quantity} x ${item.price}
-                  <Button variant="danger" size="sm" onClick={() => handleRemoveFromCart(item.id)}>Eliminar</Button>
+                  <ButtonGroup className="ml-2">
+                    <Button variant="secondary" size="sm" onClick={() => handleRemoveFromCart(item.id)}>
+                      <FaMinusCircle />
+                    </Button>
+                    <Button variant="primary" size="sm" onClick={() => handleAddToCart(item)}>
+                      <FaPlusCircle />
+                    </Button>
+                  </ButtonGroup>
                 </li>
               ))}
             </ul>
