@@ -1,6 +1,18 @@
-
 body {
   font-family: 'Arial', sans-serif;
   background-color: #f8f9fa;
   margin: 0;
+}
+
+.navbar-toggler {
+  margin-left: auto;
+}
+
+.quantity-input {
+  max-width: 120px;
+  margin-top: 8px;
+}
+
+.quantity-input input {
+  text-align: center;
 }

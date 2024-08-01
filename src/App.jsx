@@ -1,10 +1,11 @@
-
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import Contact from './pages/Contact';
+import ProductDetail from './pages/ProductDetail';
+import Cart from './components/Cart';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/App.css';
 import { ToastContainer, toast } from 'react-toastify';
@@ -23,8 +24,14 @@ const App = () => {
     } else {
       setCart([...cart, { ...product, quantity: 1 }]);
     }
-    toast.success(`${product.name} added to cart!`);
+    toast.success(`${product.name} agregado al carrito!`);
     setShowCart(true);
+  };
+
+  const handleRemoveFromCart = (productId) => {
+    const updatedCart = cart.filter(item => item.id !== productId);
+    setCart(updatedCart);
+    toast.info('Producto eliminado del carrito.');
   };
 
   const handleCloseCart = () => setShowCart(false);
@@ -36,11 +43,14 @@ const App = () => {
         cartItems={cart} 
         cartItemsCount={cart.reduce((acc, item) => acc + item.quantity, 0)} 
         handleShowCart={handleShowCart}
+        handleRemoveFromCart={handleRemoveFromCart}
       />
       <Routes>
-        <Route path="/" element={<Home onAddToCart={handleAddToCart} />} />
-        <Route path="/products" element={<Products onAddToCart={handleAddToCart} />} />
+        <Route path="/" element={<Home onAddToCart={handleAddToCart} cartItems={cart} />} />
+        <Route path="/products" element={<Products onAddToCart={handleAddToCart} cartItems={cart} />} />
+        <Route path="/products/:id" element={<ProductDetail onAddToCart={handleAddToCart} cartItems={cart} />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/cart" element={<Cart cartItems={cart} handleRemoveFromCart={handleRemoveFromCart} />} />
       </Routes>
       <ToastContainer />
     </Router>
