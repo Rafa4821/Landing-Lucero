@@ -1,10 +1,11 @@
+// src/components/ProductCard.jsx
 import React from 'react';
 import { Card, Button, ButtonGroup } from 'react-bootstrap';
 import { FaPlusCircle, FaMinusCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import '../styles/ProductCard.css';
 
-const ProductCard = ({ product, onAddToCart, onRemoveFromCart, cartItems }) => {
+const ProductCard = ({ product, onAddToCart, cartItems }) => {
   const cartItem = cartItems.find(item => item.id === product.id);
 
   return (
@@ -12,20 +13,26 @@ const ProductCard = ({ product, onAddToCart, onRemoveFromCart, cartItems }) => {
       <Card.Img variant="top" src={product.image} alt={product.name} className="product-image" />
       <Card.Body>
         <Card.Title>{product.name}</Card.Title>
+        <Card.Text>{product.platform}</Card.Text>
         <div className="d-flex justify-content-between align-items-center">
           <Button variant="info" as={Link} to={`/products/${product.id}`}>
             Ver más
           </Button>
-          <ButtonGroup>
-            <Button variant="secondary" onClick={() => onRemoveFromCart(product.id)} disabled={!cartItem}>
-              <FaMinusCircle />
-            </Button>
-            <Button variant="primary" onClick={() => onAddToCart(product)}>
-              <FaPlusCircle />
-            </Button>
-          </ButtonGroup>
+          <div>
+            <ButtonGroup>
+              <Button variant="secondary" onClick={() => onAddToCart(product, 'decrease')}>
+                <FaMinusCircle />
+              </Button>
+              <Button variant="secondary" disabled>
+                {cartItem ? cartItem.quantity : 0}
+              </Button>
+              <Button variant="primary" onClick={() => onAddToCart(product, 'increase')}>
+                <FaPlusCircle />
+              </Button>
+            </ButtonGroup>
+            <div className="mt-2">Cantidad en carrito: {cartItem ? cartItem.quantity : 0}</div>
+          </div>
         </div>
-        {cartItem && <p className="mt-2">Cantidad en carrito: {cartItem.quantity}</p>}
       </Card.Body>
     </Card>
   );

@@ -1,8 +1,8 @@
 import React from 'react';
-import { FaShoppingCart, FaPlusCircle, FaMinusCircle } from 'react-icons/fa';
-import { Button, Modal, ButtonGroup } from 'react-bootstrap';
+import { FaShoppingCart } from 'react-icons/fa';
+import { Button, Modal } from 'react-bootstrap';
 
-const CartWidget = ({ cartItems, cartItemsCount, showCart, handleCloseCart, handleShowCart, handleRemoveFromCart, handleAddToCart }) => {
+const CartWidget = ({ cartItems, cartItemsCount, showCart, handleCloseCart, handleShowCart, handleRemoveFromCart, handleAddToCart, handleDecreaseQuantity }) => {
   const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
@@ -24,14 +24,12 @@ const CartWidget = ({ cartItems, cartItemsCount, showCart, handleCloseCart, hand
               {cartItems.map(item => (
                 <li key={item.id}>
                   {item.name} - {item.quantity} x ${item.price}
-                  <ButtonGroup className="ml-2">
-                    <Button variant="secondary" size="sm" onClick={() => handleRemoveFromCart(item.id)}>
-                      <FaMinusCircle />
-                    </Button>
-                    <Button variant="primary" size="sm" onClick={() => handleAddToCart(item)}>
-                      <FaPlusCircle />
-                    </Button>
-                  </ButtonGroup>
+                  <div className="d-flex align-items-center">
+                    <Button variant="secondary" size="sm" onClick={() => handleDecreaseQuantity(item.id)}>-</Button>
+                    <span className="mx-2">{item.quantity}</span>
+                    <Button variant="secondary" size="sm" onClick={() => handleAddToCart(item)}>+</Button>
+                    <Button variant="danger" size="sm" onClick={() => handleRemoveFromCart(item.id)}>Eliminar</Button>
+                  </div>
                 </li>
               ))}
             </ul>

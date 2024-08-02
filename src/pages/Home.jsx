@@ -1,19 +1,40 @@
-import React from 'react';
-import { products } from '../data/products';
+// src/pages/Home.jsx
+import React, { useState } from 'react';
+import { Container, Row, Col } from 'react-bootstrap';
 import ProductCard from '../components/ProductCard';
+import FilterButtons from '../components/FilterButtons';
+import { products } from '../data/products';
+import '../styles/Home.css';
 
-const Home = ({ onAddToCart, onRemoveFromCart, cartItems }) => {
+const Home = ({ onAddToCart, cartItems }) => {
+  const [filteredProducts, setFilteredProducts] = useState(products);
+
+  const handleFilter = (platform) => {
+    if (platform === 'all') {
+      setFilteredProducts(products);
+    } else {
+      setFilteredProducts(products.filter(product => product.platform === platform));
+    }
+  };
+
   return (
-    <div className="container">
+    <Container>
       <h1 className="my-4 main-title">Bienvenido a Mi Tienda!</h1>
-      <div className="row">
-        {products.map(product => (
-          <div key={product.id} className="col-md-4">
-            <ProductCard product={product} onAddToCart={onAddToCart} onRemoveFromCart={onRemoveFromCart} cartItems={cartItems} />
-          </div>
-        ))}
+      <div className="filter-buttons">
+        <FilterButtons handleFilter={handleFilter} />
       </div>
-    </div>
+      <Row>
+        {filteredProducts.map(product => (
+          <Col key={product.id} sm={6} md={4} lg={3}>
+            <ProductCard
+              product={product}
+              onAddToCart={onAddToCart}
+              cartItems={cartItems}
+            />
+          </Col>
+        ))}
+      </Row>
+    </Container>
   );
 };
 
