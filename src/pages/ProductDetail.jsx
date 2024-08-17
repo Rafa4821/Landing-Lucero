@@ -1,20 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { products } from '../data/products';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../data/firebaseConfig';
 import '../styles/ProductDetail.css';
+import { Button, ButtonGroup } from 'react-bootstrap';
+import { FaPlusCircle, FaMinusCircle } from 'react-icons/fa';
 
-const ProductDetail = ({ onAddToCart }) => {
+const ProductDetail = ({ onAddToCart, cartItems = [] }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
+  const [quantity, setQuantity] = useState(0);
 
   useEffect(() => {
-    const foundProduct = products.find(prod => prod.id === parseInt(id));
-    setProduct(foundProduct);
-  }, [id]);
+    const fetchProduct = async () => {
+      const productRef = doc(db, 'productos', id);
+      const productSnap = await getDoc(productRef);
+
+      if (productSnap.exists()) {
+        setProduct({ id: productSnap.id, ...productSnap.data() });
+      } else {
+        navigate('/products');
+      }
+    };
+
+    fetchProduct();
+  }, [id, navigate]);
+
+  useEffect(() => {
+    const cartItem = cartItems.find(item => item.id === id);
+    setQuantity(cartItem ? cartItem.quantity : 0);
+  }, [cartItems, id]);
 
   if (!product) {
-    return <div>Loading...</div>;
+    return <div>Cargando...</div>;
   }
 
   return (
@@ -32,9 +51,21 @@ const ProductDetail = ({ onAddToCart }) => {
             title="Product Trailer"
           ></iframe>
         </div>
-        <div className="buttons">
-          <button onClick={() => onAddToCart(product)}>Agregar al carrito</button>
-          <button className="secondary" onClick={() => navigate('/products')}>Regresar</button>
+        <div className="quantity-controls">
+          <ButtonGroup>
+            <Button variant="secondary" onClick={() => onAddToCart(product, 'decrease')}>
+              <FaMinusCircle />
+            </Button>
+            <Button variant="secondary" disabled>
+              {quantity}
+            </Button>
+            <Button variant="primary" onClick={() => onAddToCart(product, 'increase')}>
+              <FaPlusCircle />
+            </Button>
+          </ButtonGroup>
+        </div>
+        <div className="buttons mt-4">
+          <Button className="secondary" onClick={() => navigate('/products')}>Regresar</Button>
         </div>
       </div>
     </div>

@@ -1,13 +1,29 @@
-// src/pages/Home.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import ProductCard from '../components/ProductCard';
 import FilterButtons from '../components/FilterButtons';
-import { products } from '../data/products';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../data/firebaseConfig';
 import '../styles/Home.css';
 
 const Home = ({ onAddToCart, cartItems }) => {
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const productsCollection = collection(db, 'productos');
+      const productsSnapshot = await getDocs(productsCollection);
+      const productsList = productsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setProducts(productsList);
+      setFilteredProducts(productsList);
+    };
+
+    fetchProducts();
+  }, []);
 
   const handleFilter = (platform) => {
     if (platform === 'all') {

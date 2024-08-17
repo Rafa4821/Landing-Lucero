@@ -12,7 +12,16 @@ const NavBar = ({ cartItems, cartItemsCount, handleShowCart, handleRemoveFromCar
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
-        <Navbar.Brand as={Link} to="/">Mi Tienda</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/proyecto-react-lucero.appspot.com/o/logo.png?alt=media&token=f12b7bd3-2017-44ca-8797-611828986579"
+            width="50"
+            height="50"
+            className="d-inline-block align-top"
+            alt="Logo"
+          />
+          {' '}Mi Tienda
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
