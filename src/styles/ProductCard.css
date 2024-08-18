@@ -10,3 +10,33 @@
   object-fit: contain;
   margin-bottom: 10px;
 }
+
+.button-group-custom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-group-custom .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-size: 16px;
+}
+
+.button-group-custom .btn-primary {
+  background-color: #007bff;
+}
+
+.button-group-custom .btn-secondary {
+  background-color: #6c757d;
+}
+
+.product-card .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

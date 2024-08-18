@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../data/firebaseConfig';
 import '../styles/ProductDetail.css';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import { FaPlusCircle, FaMinusCircle } from 'react-icons/fa';
+import { toast } from 'react-toastify';
 
 const ProductDetail = ({ onAddToCart, cartItems = [] }) => {
   const { id } = useParams();
@@ -18,19 +19,53 @@ const ProductDetail = ({ onAddToCart, cartItems = [] }) => {
       const productSnap = await getDoc(productRef);
 
       if (productSnap.exists()) {
-        setProduct({ id: productSnap.id, ...productSnap.data() });
+        const fetchedProduct = { id: productSnap.id, ...productSnap.data() };
+        setProduct(fetchedProduct);
+        
+        // Set initial quantity based on cartItems
+        const cartItem = cartItems.find(item => item.id === fetchedProduct.id);
+        setQuantity(cartItem ? cartItem.quantity : 0);
       } else {
         navigate('/products');
       }
     };
 
     fetchProduct();
-  }, [id, navigate]);
+  }, [id, cartItems, navigate]);
 
-  useEffect(() => {
-    const cartItem = cartItems.find(item => item.id === id);
-    setQuantity(cartItem ? cartItem.quantity : 0);
-  }, [cartItems, id]);
+  const handleAddToCart = async (action) => {
+    if (!product) return;
+
+    if (action === 'increase') {
+      if (quantity < product.stock) {
+        onAddToCart(product, 'increase');
+        setQuantity(quantity + 1);
+
+        // Reducir stock en Firestore
+        const productRef = doc(db, 'productos', id);
+        await updateDoc(productRef, {
+          stock: product.stock - 1
+        });
+        setProduct(prev => ({ ...prev, stock: prev.stock - 1 }));
+      } else {
+        toast.error("No hay suficiente stock disponible.");
+      }
+    } else if (action === 'decrease') {
+      if (quantity > 0) {
+        onAddToCart(product, 'decrease');
+        setQuantity(quantity - 1);
+
+        // Aumentar stock en Firestore
+        const productRef = doc(db, 'productos', id);
+        await updateDoc(productRef, {
+          stock: product.stock + 1
+        });
+        setProduct(prev => ({ ...prev, stock: prev.stock + 1 }));
+      } else {
+        toast.error("No hay productos en el carrito para remover.");
+      }
+    }
+  };
 
   if (!product) {
     return <div>Cargando...</div>;
@@ -53,13 +88,13 @@ const ProductDetail = ({ onAddToCart, cartItems = [] }) => {
         </div>
         <div className="quantity-controls">
           <ButtonGroup>
-            <Button variant="secondary" onClick={() => onAddToCart(product, 'decrease')}>
+            <Button variant="secondary" onClick={() => handleAddToCart('decrease')}>
               <FaMinusCircle />
             </Button>
             <Button variant="secondary" disabled>
               {quantity}
             </Button>
-            <Button variant="primary" onClick={() => onAddToCart(product, 'increase')}>
+            <Button variant="primary" onClick={() => handleAddToCart('increase')}>
               <FaPlusCircle />
             </Button>
           </ButtonGroup>

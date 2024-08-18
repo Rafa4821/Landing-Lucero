@@ -1,4 +1,3 @@
-// src/App.jsx
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
@@ -6,6 +5,8 @@ import Home from './pages/Home';
 import Products from './pages/Products';
 import Contact from './pages/Contact';
 import ProductDetail from './pages/ProductDetail';
+import Checkout from './pages/Checkout';
+import OrderConfirmation from './pages/OrderConfirmation';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/App.css';
 import { ToastContainer, toast } from 'react-toastify';
@@ -22,7 +23,11 @@ const App = () => {
         item.id === product.id
           ? {
               ...item,
-              quantity: action === 'increase' ? item.quantity + 1 : item.quantity > 0 ? item.quantity - 1 : 0
+              quantity: action === 'increase' 
+                ? item.quantity + 1 
+                : item.quantity > 0 
+                  ? item.quantity - 1 
+                  : 0
             }
           : item
       ).filter(item => item.quantity > 0);
@@ -44,7 +49,11 @@ const App = () => {
       item.id === productId
         ? {
             ...item,
-            quantity: action === 'increase' ? item.quantity + 1 : item.quantity > 0 ? item.quantity - 1 : 0
+            quantity: action === 'increase' 
+              ? item.quantity + 1 
+              : item.quantity > 0 
+                ? item.quantity - 1 
+                : 0
           }
         : item
     ).filter(item => item.quantity > 0);
@@ -66,8 +75,10 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home onAddToCart={handleAddToCart} cartItems={cart} />} />
         <Route path="/products" element={<Products onAddToCart={handleAddToCart} cartItems={cart} />} />
-        <Route path="/products/:id" element={<ProductDetail onAddToCart={handleAddToCart} />} />
+        <Route path="/products/:id" element={<ProductDetail onAddToCart={handleAddToCart} cartItems={cart} />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/checkout" element={<Checkout cartItems={cart} clearCart={() => setCart([])} />} />
+        <Route path="/order-confirmation/:id" element={<OrderConfirmation />} />
       </Routes>
       <ToastContainer />
     </Router>

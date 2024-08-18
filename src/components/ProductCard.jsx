@@ -1,4 +1,3 @@
-// src/components/ProductCard.jsx
 import React from 'react';
 import { Card, Button, ButtonGroup } from 'react-bootstrap';
 import { FaPlusCircle, FaMinusCircle } from 'react-icons/fa';
@@ -14,12 +13,13 @@ const ProductCard = ({ product, onAddToCart, cartItems }) => {
       <Card.Body>
         <Card.Title>{product.name}</Card.Title>
         <Card.Text>{product.platform}</Card.Text>
+        <Card.Text className="price">${product.price.toFixed(2)}</Card.Text>
         <div className="d-flex justify-content-between align-items-center">
           <Button variant="info" as={Link} to={`/products/${product.id}`}>
             Ver más
           </Button>
           <div>
-            <ButtonGroup>
+            <ButtonGroup className="button-group-custom">
               <Button variant="secondary" onClick={() => onAddToCart(product, 'decrease')}>
                 <FaMinusCircle />
               </Button>
@@ -30,7 +30,6 @@ const ProductCard = ({ product, onAddToCart, cartItems }) => {
                 <FaPlusCircle />
               </Button>
             </ButtonGroup>
-            <div className="mt-2">Cantidad en carrito: {cartItem ? cartItem.quantity : 0}</div>
           </div>
         </div>
       </Card.Body>
