@@ -1,3 +1,4 @@
+// src/pages/Checkout.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -8,20 +9,34 @@ import '../styles/Checkout.css';
 const Checkout = ({ cartItems, clearCart }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
+  const [region, setRegion] = useState('');
+  const [observations, setObservations] = useState('');
   const [shipping, setShipping] = useState('domicilio');
   const navigate = useNavigate();
 
   const handleOrder = async () => {
-    if (!name || !email || !address) {
+    // Validaciones
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!name || !email || !phone || !address || !region) {
       toast.error('Por favor complete todos los campos.');
+      return;
+    }
+
+    if (!emailRegex.test(email)) {
+      toast.error('Por favor ingrese un correo electrónico válido.');
       return;
     }
 
     const order = {
       name,
       email,
+      phone,
       address,
+      region,
+      observations,
       shipping,
       items: cartItems,
       total: cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
@@ -40,8 +55,8 @@ const Checkout = ({ cartItems, clearCart }) => {
 
   return (
     <div className="checkout-container">
+      <h2>Finalizar Compra</h2>
       <div className="checkout-form">
-        <h2>Finalizar Compra</h2>
         <div className="form-group">
           <label>Nombre completo</label>
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
@@ -51,26 +66,24 @@ const Checkout = ({ cartItems, clearCart }) => {
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </div>
         <div className="form-group">
+          <label>Número de Teléfono</label>
+          <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+        </div>
+        <div className="form-group">
           <label>Dirección de despacho</label>
           <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
         </div>
-      </div>
-      
-      <div className="order-summary">
-        <h3>Resumen de tu pedido</h3>
-        <ul>
-          {cartItems.map((item) => (
-            <li key={item.id}>
-              <img src={item.image} alt={item.name} />
-              {item.name} - {item.quantity} x ${item.price.toFixed(2)}
-            </li>
-          ))}
-        </ul>
-        <p>Total: ${cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}</p>
-
+        <div className="form-group">
+          <label>Región</label>
+          <input type="text" value={region} onChange={(e) => setRegion(e.target.value)} />
+        </div>
+        <div className="form-group">
+          <label>Observaciones</label>
+          <textarea value={observations} onChange={(e) => setObservations(e.target.value)} />
+        </div>
         <div className="form-group">
           <label>Envío</label>
-          <div className="radio-group">
+          <div>
             <label>
               <input
                 type="radio"
@@ -93,7 +106,7 @@ const Checkout = ({ cartItems, clearCart }) => {
         </div>
         <div className="form-group">
           <label>Método de pago</label>
-          <div className="radio-group">
+          <div>
             <label>
               <input type="radio" value="transferencia" checked disabled />
               Transferencia Bancaria
@@ -103,6 +116,18 @@ const Checkout = ({ cartItems, clearCart }) => {
         <button onClick={handleOrder} className="btn btn-primary">
           Finalizar Compra
         </button>
+      </div>
+      <div className="order-summary">
+        <h3>Resumen de tu pedido</h3>
+        <ul>
+          {cartItems.map((item) => (
+            <li key={item.id}>
+              <img src={item.image} alt={item.name} />
+              {item.name} - {item.quantity} x ${item.price.toFixed(2)}
+            </li>
+          ))}
+        </ul>
+        <p>Total: ${cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}</p>
       </div>
     </div>
   );

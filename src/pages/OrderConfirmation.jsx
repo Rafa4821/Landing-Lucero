@@ -43,7 +43,7 @@ const OrderConfirmation = () => {
 
   return (
     <div className="order-confirmation-container">
-      <h2>¡Tu pedido fue realizado con éxito!</h2>
+      <h2 className="my-4 main-title">¡Tu pedido fue realizado con éxito!</h2>
       <p>Gracias por tu compra, <strong>{orderData.name}</strong>.</p>
       <p>ID de la orden: <strong>{id}</strong></p>
 
