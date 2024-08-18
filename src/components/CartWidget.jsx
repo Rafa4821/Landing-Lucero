@@ -78,3 +78,4 @@ const CartWidget = ({ cartItems, cartItemsCount, showCart, handleCloseCart, hand
 };
 
 export default CartWidget;
+
