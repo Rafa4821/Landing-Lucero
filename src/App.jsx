@@ -64,7 +64,7 @@ const App = () => {
   const handleShowCart = () => setShowCart(true);
 
   return (
-    <Router basename="/Landing-Lucero">
+    <Router basename="/landing-lucero">
       <NavBar 
         cartItems={cart} 
         cartItemsCount={cart.reduce((acc, item) => acc + item.quantity, 0)} 

@@ -22,7 +22,6 @@ const ProductDetail = ({ onAddToCart, cartItems = [] }) => {
         const fetchedProduct = { id: productSnap.id, ...productSnap.data() };
         setProduct(fetchedProduct);
         
-        // Set initial quantity based on cartItems
         const cartItem = cartItems.find(item => item.id === fetchedProduct.id);
         setQuantity(cartItem ? cartItem.quantity : 0);
       } else {
